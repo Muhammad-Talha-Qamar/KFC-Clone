@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./style.css">
+  <title>Merch Store | KFC</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+</head>
+<body id="body-container" class="bg-gray-100 font-sans min-h-screen flex flex-col relative overflow-x-hidden">
+
+  <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- TOP HEADER -->
+  <header class="site-header w-full bg-white border-b border-gray-200 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-2 sm:gap-4 sticky top-0 z-30">
+    <div class="flex items-center gap-2 sm:gap-4 md:gap-6 min-w-0">
+      <a href="./index.html" class="text-red-600 font-black italic text-2xl sm:text-3xl tracking-tighter shrink-0">
+        KFC
+      </a>
+      <nav class="hidden sm:flex items-center gap-1.5 md:gap-3">
+        <a href="./index.html" class="order-mode-btn flex items-center gap-2 md:gap-3 px-2.5 md:px-5 py-2 md:py-2.5 bg-slate-50 rounded-lg hover:bg-slate-100 transition font-bold text-black text-sm tracking-wide">
+          <i data-lucide="bike" class="w-5 h-5 text-red-500"></i>
+          <span class="hidden md:inline">DELIVERY</span>
+        </a>
+        <a href="./index.html" class="order-mode-btn flex items-center gap-2 md:gap-3 px-2.5 md:px-5 py-2 md:py-2.5 bg-slate-50 rounded-lg hover:bg-slate-100 transition font-bold text-black text-sm tracking-wide">
+          <i data-lucide="shopping-bag" class="w-5 h-5 text-amber-800"></i>
+          <span class="hidden md:inline">PICKUP</span>
+        </a>
+        <span class="order-mode-btn active flex items-center gap-2 md:gap-3 px-2.5 md:px-5 py-2 md:py-2.5 bg-slate-50 rounded-lg font-bold text-black text-sm tracking-wide">
+          <i data-lucide="shirt" class="w-5 h-5 text-gray-700"></i>
+          <span class="hidden md:inline">MERCH</span>
+        </span>
+      </nav>
+    </div>
+
+    <div class="flex items-center gap-2 sm:gap-4 md:gap-6 shrink-0">
+      <a href="./bucket.html" class="nav-bucket" aria-label="Bucket">
+        <img src="./assets/bucket-filled.svg" alt="" draggable="false" />
+        <span id="header-cart-count">0</span>
+      </a>
+      <a href="./index.html" class="bg-red-600 hover:bg-red-700 text-white font-bold px-3 sm:px-6 py-2 sm:py-2.5 rounded-md text-xs sm:text-sm transition shadow-sm">
+        LOGIN
+      </a>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <div class="w-full px-3 sm:px-4 md:px-6 py-4 md:py-5 space-y-5">
+      <!-- Hero -->
+      <div class="merch-hero relative w-full overflow-hidden rounded-2xl shadow-lg">
+        <img
+          class="merch-hero-img"
+          src="https://www.kfcpakistan.com/images/9fe8e0f0-f112-11f0-97d3-1f3c40e25119-Merch_desktop_image-2026-01-14063114.jpeg"
+          alt="KFC Merch Store — Explore the Drip"
+        />
+        <div class="merch-hero-overlay">
+          <p class="merch-hero-eyebrow">Official drop</p>
+          <h1 class="merch-hero-title">KFC MERCH</h1>
+          <p class="merch-hero-sub">When the drip’s as iconic as the chicken.</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="./index.html" class="w-8 h-8 rounded-full border border-red-600 flex items-center justify-center text-red-600 hover:bg-red-50 transition shrink-0" aria-label="Back to home">
+          <i data-lucide="chevron-left" class="w-5 h-5"></i>
+        </a>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-black tracking-wide">EXPLORE THE DRIP</h2>
+          <p class="text-sm text-gray-500">Hoodies, tees, shorts &amp; more — Colonel approved.</p>
+        </div>
+      </div>
+
+      <div id="merch-tabs" class="menu-cat-tabs" role="tablist" aria-label="Merch categories"></div>
+      <div id="merch-products" class="merch-products-grid"></div>
+    </div>
+  </main>
+
+  <!-- Floating bucket -->
+  <div id="draggable-fab" class="draggable-fab" aria-label="Bucket cart">
+    <a href="./bucket.html" class="cart-svg-link" draggable="false" aria-label="Open your bucket">
+      <img src="./assets/bucket-filled.svg" alt="Bucket" draggable="false" />
+      <span id="fab-cart-count">0</span>
+    </a>
+  </div>
+
+  <footer class="bg-white border-t border-gray-200 mt-auto py-8">
+    <div class="max-w-[1200px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-gray-600">
+      <a href="./index.html" class="text-red-600 font-black italic text-3xl">KFC</a>
+      <div class="flex gap-6 font-semibold">
+        <a href="./index.html" class="hover:text-red-600">Home</a>
+        <a href="./merch.html" class="hover:text-red-600">Merch</a>
+        <a href="./bucket.html" class="hover:text-red-600">Bucket</a>
+      </div>
+      <p class="text-xs text-gray-500">2026 KFC. All rights reserved</p>
+    </div>
+  </footer>
+
+  <script>
+    if (window.lucide) lucide.createIcons();
+
+    const MERCH_CATEGORIES = [
+      { id: 'all', name: 'All' },
+      { id: 'apparel', name: 'Apparel' },
+      { id: 'footwear', name: 'Bottoms' },
+      { id: 'accessories', name: 'Accessories' }
+    ];
+
+    const MERCH_ITEMS = [
+      {
+        id: 'merch-og-hoodie',
+        name: 'OG Hoodie',
+        price: 4499,
+        category: 'apparel',
+        desc: 'Heavyweight red hoodie with classic KFC script logo.',
+        image: './assets/merch/og-hoodie.jpg'
+      },
+      {
+        id: 'merch-colonel-crew',
+        name: "Colonel's Hoodie",
+        price: 3999,
+        category: 'apparel',
+        desc: 'Black hoodie with Colonel face badge and Finger Lickin’ back print.',
+        image: './assets/merch/colonel-hoodie.jpg'
+      },
+      {
+        id: 'merch-finger-tee',
+        name: "Finger Lickin' Tee",
+        price: 1999,
+        category: 'apparel',
+        desc: 'Everyday tee — lickin’ good on repeat.',
+        image: './assets/merch/finger-tee.jpg'
+      },
+      {
+        id: 'merch-bucket-cap',
+        name: 'Bucket Hat',
+        price: 1499,
+        category: 'accessories',
+        desc: 'Classic KFC bucket hat for sunny drip days.',
+        image: './assets/merch/bucket-hat.jpg'
+      },
+      {
+        id: 'merch-board-shorts',
+        name: 'Zinger Board Shorts',
+        price: 2999,
+        category: 'footwear',
+        desc: 'Surf-ready shorts with bold Zinger energy.',
+        image: './assets/merch/board-shorts.jpg'
+      },
+      {
+        id: 'merch-trackpants',
+        name: 'Zinger Trackpants',
+        price: 3499,
+        category: 'footwear',
+        desc: 'Black trackpants with Zinger logo — chill mode unlocked.',
+        image: './assets/merch/trackpants.jpg'
+      },
+      {
+        id: 'merch-socks',
+        name: 'Drumstick Socks',
+        price: 899,
+        category: 'accessories',
+        desc: 'Crew socks with crispy drumstick detail.',
+        image: './assets/merch/socks.jpg'
+      },
+      {
+        id: 'merch-bundle',
+        name: 'Logo Hoodie (Off White)',
+        price: 4499,
+        category: 'apparel',
+        desc: 'Off-white hoodie with KFC outline logo — mashed-potato clean.',
+        image: './assets/merch/logo-hoodie.jpg'
+      }
+    ];
+
+    let activeMerchCategory = 'all';
+    let cart = JSON.parse(localStorage.getItem('kfc-cart') || '[]');
+    const toastContainer = document.getElementById('toast-container');
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'bg-white border border-gray-200 rounded-lg p-3 shadow-xl flex items-center gap-3 text-xs font-semibold text-black pointer-events-auto min-w-[280px] animate-bounce';
+      toast.innerHTML = `
+        <div class="w-5 h-5 bg-red-100 rounded-full flex items-center justify-center text-red-600 font-bold shrink-0">!</div>
+        <span class="flex-1">${message}</span>
+        <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-black">✕</button>
+      `;
+      toastContainer.appendChild(toast);
+      setTimeout(() => toast.remove(), 4000);
+    }
+
+    function saveCart() {
+      localStorage.setItem('kfc-cart', JSON.stringify(cart));
+      updateCartCounts();
+    }
+
+    function cartCount() {
+      return cart.reduce((sum, item) => sum + item.qty, 0);
+    }
+
+    function updateCartCounts() {
+      const count = cartCount();
+      const fab = document.getElementById('fab-cart-count');
+      const header = document.getElementById('header-cart-count');
+      if (fab) fab.textContent = count;
+      if (header) header.textContent = count;
+    }
+
+    function addToBucket(itemId) {
+      const product = MERCH_ITEMS.find(p => p.id === itemId);
+      if (!product) return;
+      const existing = cart.find(i => i.id === itemId);
+      if (existing) existing.qty += 1;
+      else cart.push({ id: product.id, name: product.name, price: product.price, image: product.image, qty: 1 });
+      saveCart();
+      showToast(`${product.name} added to bucket`);
+    }
+
+    function renderMerchTabs() {
+      const el = document.getElementById('merch-tabs');
+      if (!el) return;
+      el.innerHTML = MERCH_CATEGORIES.map(cat => `
+        <button
+          type="button"
+          role="tab"
+          class="menu-cat-tab${activeMerchCategory === cat.id ? ' active' : ''}"
+          aria-selected="${activeMerchCategory === cat.id}"
+          onclick="setMerchCategory('${cat.id}')"
+        >${cat.name}</button>
+      `).join('');
+    }
+
+    function setMerchCategory(id) {
+      activeMerchCategory = id;
+      renderMerchTabs();
+      renderMerchProducts();
+    }
+
+    function renderMerchProducts() {
+      const el = document.getElementById('merch-products');
+      if (!el) return;
+      const items = activeMerchCategory === 'all'
+        ? MERCH_ITEMS
+        : MERCH_ITEMS.filter(i => i.category === activeMerchCategory);
+
+      el.innerHTML = items.map(item => `
+        <article class="merch-card">
+          <div class="kfc-stripes" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="merch-card-media">
+            <img src="${item.image}" alt="${item.name}" loading="lazy" onerror="this.src='./assets/merch-placeholder.svg'" />
+          </div>
+          <div class="merch-card-body">
+            <div class="merch-card-head">
+              <h3 class="merch-card-title">${item.name}</h3>
+              <span class="merch-card-price">Rs ${item.price.toLocaleString()}</span>
+            </div>
+            <p class="merch-card-desc">${item.desc}</p>
+            <button type="button" class="merch-add" onclick="addToBucket('${item.id}')">+ Add to bucket</button>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    // Draggable FAB (same behavior as bucket page)
+    (function initFab() {
+      const fab = document.getElementById('draggable-fab');
+      const link = fab && fab.querySelector('.cart-svg-link');
+      if (!fab || !link) return;
+
+      let dragging = false;
+      let moved = false;
+      let userMoved = false;
+      let startX = 0;
+      let startY = 0;
+      let origLeft = 0;
+      let origTop = 0;
+
+      fab.addEventListener('pointerdown', (e) => {
+        if (e.button !== 0) return;
+        dragging = true;
+        moved = false;
+        startX = e.clientX;
+        startY = e.clientY;
+        const rect = fab.getBoundingClientRect();
+        origLeft = rect.left;
+        origTop = rect.top;
+        fab.classList.add('dragging');
+        fab.setPointerCapture(e.pointerId);
+      });
+
+      window.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
+          moved = true;
+          userMoved = true;
+        }
+        const maxX = Math.max(0, window.innerWidth - fab.offsetWidth);
+        const maxY = Math.max(0, window.innerHeight - fab.offsetHeight);
+        fab.style.left = `${Math.min(Math.max(0, origLeft + dx), maxX)}px`;
+        fab.style.top = `${Math.min(Math.max(0, origTop + dy), maxY)}px`;
+      });
+
+      window.addEventListener('pointerup', () => {
+        if (!dragging) return;
+        dragging = false;
+        fab.classList.remove('dragging');
+      });
+
+      link.addEventListener('click', (e) => {
+        if (moved) {
+          e.preventDefault();
+          moved = false;
+        }
+      });
+    })();
+
+    updateCartCounts();
+    renderMerchTabs();
+    renderMerchProducts();
+  </script>
+</body>
+</html>

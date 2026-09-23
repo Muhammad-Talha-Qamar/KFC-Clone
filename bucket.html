@@ -19,25 +19,27 @@
         KFC
       </a>
       <nav class="hidden sm:flex items-center gap-3">
-        <span class="order-mode-btn flex items-center gap-3 px-5 py-2.5 bg-slate-50 rounded-lg font-bold text-black text-sm tracking-wide">
+        <a href="./index.html" class="order-mode-btn flex items-center gap-3 px-5 py-2.5 bg-slate-50 rounded-lg font-bold text-black text-sm tracking-wide hover:bg-slate-100 transition">
           <i data-lucide="bike" class="w-5 h-5 text-red-500"></i>
           <span>DELIVERY</span>
-        </span>
-        <span class="order-mode-btn active flex items-center gap-3 px-5 py-2.5 bg-slate-50 rounded-lg font-bold text-black text-sm tracking-wide">
+        </a>
+        <a href="./index.html" class="order-mode-btn active flex items-center gap-3 px-5 py-2.5 bg-slate-50 rounded-lg font-bold text-black text-sm tracking-wide hover:bg-slate-100 transition">
           <i data-lucide="shopping-bag" class="w-5 h-5 text-amber-800"></i>
           <span>PICKUP</span>
-        </span>
+        </a>
+        <a href="./merch.html" class="order-mode-btn flex items-center gap-3 px-5 py-2.5 bg-slate-50 rounded-lg font-bold text-black text-sm tracking-wide hover:bg-slate-100 transition">
+          <i data-lucide="shirt" class="w-5 h-5 text-gray-700"></i>
+          <span>MERCH</span>
+        </a>
       </nav>
     </div>
 
-    <div class="flex items-center gap-6">
-      <a href="./bucket.html" class="relative flex items-center justify-center p-1" aria-label="Bucket">
-        <div class="w-8 h-9 border-2 border-black rounded-b-xl relative flex items-center justify-center bg-white shadow-sm">
-          <span id="header-cart-count" class="font-bold text-black text-sm">0</span>
-        </div>
-        <i data-lucide="utensils" class="w-4 h-4 text-black absolute -top-1 right-0 rotate-12"></i>
+    <div class="flex items-center gap-2 sm:gap-4 md:gap-6 shrink-0">
+      <a href="./bucket.html" class="nav-bucket" aria-label="Bucket">
+        <img src="./assets/bucket-filled.svg" alt="" draggable="false" />
+        <span id="header-cart-count">0</span>
       </a>
-      <a href="./index.html" class="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-2.5 rounded-md text-sm transition shadow-sm">
+      <a href="./index.html" class="bg-red-600 hover:bg-red-700 text-white font-bold px-3 sm:px-6 py-2 sm:py-2.5 rounded-md text-xs sm:text-sm transition shadow-sm">
         LOGIN
       </a>
     </div>
@@ -99,6 +101,7 @@
       <a href="./index.html" class="text-red-600 font-black italic text-3xl">KFC</a>
       <div class="flex gap-6 font-semibold">
         <a href="./index.html" class="hover:text-red-600">Home</a>
+        <a href="./merch.html" class="hover:text-red-600">Merch</a>
         <a href="./bucket.html" class="hover:text-red-600">Bucket</a>
       </div>
       <p class="text-xs text-gray-500">2026 KFC. All rights reserved</p>
@@ -284,34 +287,53 @@
       const link = fab?.querySelector('.cart-svg-link');
       if (!fab || !link) return;
 
+      const MOBILE_MAX = 769;
       let dragging = false;
       let moved = false;
       let startX = 0;
       let startY = 0;
       let origLeft = 0;
       let origTop = 0;
+      let userMoved = false;
+
+      function isMobileBucket() {
+        return window.innerWidth <= MOBILE_MAX;
+      }
 
       function placeDefault() {
-        const pad = 24;
-        fab.style.left = `${window.innerWidth - fab.offsetWidth - pad}px`;
-        fab.style.top = `${window.innerHeight - fab.offsetHeight - pad}px`;
+        userMoved = false;
+        fab.style.left = '';
+        fab.style.top = '';
+        fab.style.right = '';
+        fab.style.bottom = '';
+      }
+
+      function clampToViewport() {
+        if (!isMobileBucket() || !fab.offsetWidth) return;
+        const rect = fab.getBoundingClientRect();
+        const maxX = Math.max(0, window.innerWidth - fab.offsetWidth);
+        const maxY = Math.max(0, window.innerHeight - fab.offsetHeight);
+        fab.style.left = `${Math.min(Math.max(0, rect.left), maxX)}px`;
+        fab.style.top = `${Math.min(Math.max(0, rect.top), maxY)}px`;
         fab.style.right = 'auto';
         fab.style.bottom = 'auto';
       }
 
       placeDefault();
       window.addEventListener('resize', () => {
-        const rect = fab.getBoundingClientRect();
-        const maxX = window.innerWidth - fab.offsetWidth;
-        const maxY = window.innerHeight - fab.offsetHeight;
-        fab.style.left = `${Math.min(Math.max(0, rect.left), maxX)}px`;
-        fab.style.top = `${Math.min(Math.max(0, rect.top), maxY)}px`;
+        if (!isMobileBucket()) {
+          placeDefault();
+          return;
+        }
+        if (userMoved) clampToViewport();
+        else placeDefault();
       });
 
       fab.addEventListener('mouseenter', () => fab.classList.add('hovered'));
       fab.addEventListener('mouseleave', () => fab.classList.remove('hovered'));
 
       fab.addEventListener('pointerdown', (e) => {
+        if (!isMobileBucket()) return;
         if (e.button !== undefined && e.button !== 0) return;
         dragging = true;
         moved = false;
@@ -321,6 +343,10 @@
         startY = e.clientY;
         origLeft = rect.left;
         origTop = rect.top;
+        fab.style.left = `${rect.left}px`;
+        fab.style.top = `${rect.top}px`;
+        fab.style.right = 'auto';
+        fab.style.bottom = 'auto';
         fab.setPointerCapture?.(e.pointerId);
         e.preventDefault();
       });
@@ -329,9 +355,12 @@
         if (!dragging) return;
         const dx = e.clientX - startX;
         const dy = e.clientY - startY;
-        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
-        const maxX = window.innerWidth - fab.offsetWidth;
-        const maxY = window.innerHeight - fab.offsetHeight;
+        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
+          moved = true;
+          userMoved = true;
+        }
+        const maxX = Math.max(0, window.innerWidth - fab.offsetWidth);
+        const maxY = Math.max(0, window.innerHeight - fab.offsetHeight);
         fab.style.left = `${Math.min(Math.max(0, origLeft + dx), maxX)}px`;
         fab.style.top = `${Math.min(Math.max(0, origTop + dy), maxY)}px`;
       });

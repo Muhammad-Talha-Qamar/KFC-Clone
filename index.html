@@ -79,10 +79,14 @@
         <i data-lucide="truck" class="w-5 h-5 text-red-600"></i>
         <span>Track Order</span>
       </button>
-      <button onclick="navigateTo('home')" class="flex items-center gap-4 text-gray-200 hover:text-red-500 font-semibold text-base transition w-full text-left">
+      <button onclick="openMenuView()" class="flex items-center gap-4 text-gray-200 hover:text-red-500 font-semibold text-base transition w-full text-left">
         <i data-lucide="utensils-crossed" class="w-5 h-5 text-red-600"></i>
         <span>Explore Menu</span>
       </button>
+      <a href="./merch.html" class="flex items-center gap-4 text-gray-200 hover:text-red-500 font-semibold text-base transition w-full text-left">
+        <i data-lucide="shirt" class="w-5 h-5 text-red-600"></i>
+        <span>Merch Store</span>
+      </a>
     </div>
 
     <div class="px-6 py-6 space-y-4 text-sm font-medium text-gray-300">
@@ -95,9 +99,9 @@
   </aside>
 
   <!-- TOP HEADER -->
-  <header class="w-full bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between gap-4 sticky top-0 z-30">
-    <div class="flex items-center gap-6">
-      <button onclick="toggleSidebar()" class="p-1 text-black hover:bg-gray-100 rounded-md transition" aria-label="Open menu">
+  <header class="site-header w-full bg-white border-b border-gray-200 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-2 sm:gap-4 sticky top-0 z-30">
+    <div class="flex items-center gap-2 sm:gap-4 md:gap-6 min-w-0">
+      <button onclick="toggleSidebar()" class="p-1 text-black hover:bg-gray-100 rounded-md transition shrink-0" aria-label="Open menu">
         <!-- Inline SVG so the icon always shows even if Lucide CDN fails (common on GitHub Pages) -->
         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <line x1="4" x2="20" y1="12" y2="12"></line>
@@ -105,43 +109,42 @@
           <line x1="4" x2="20" y1="18" y2="18"></line>
         </svg>
       </button>
-      <span onclick="navigateTo('home')" class="text-red-600 font-black italic text-3xl tracking-tighter cursor-pointer">
+      <span onclick="navigateTo('home')" class="text-red-600 font-black italic text-2xl sm:text-3xl tracking-tighter cursor-pointer shrink-0">
         KFC
       </span>
 
       <!-- Order Mode Selectors -->
-      <nav class="flex items-center gap-3">
-        <button onclick="setActiveOrderMode(this)" class="order-mode-btn flex items-center gap-3 px-5 py-2.5 bg-slate-50 rounded-lg hover:bg-slate-100 transition font-bold text-black text-sm tracking-wide">
+      <nav class="hidden sm:flex items-center gap-1.5 md:gap-3">
+        <button onclick="setActiveOrderMode(this)" class="order-mode-btn flex items-center gap-2 md:gap-3 px-2.5 md:px-5 py-2 md:py-2.5 bg-slate-50 rounded-lg hover:bg-slate-100 transition font-bold text-black text-sm tracking-wide">
           <i data-lucide="bike" class="w-5 h-5 text-red-500"></i>
-          <span>DELIVERY</span>
+          <span class="hidden md:inline">DELIVERY</span>
         </button>
 
-        <button onclick="setActiveOrderMode(this)" class="order-mode-btn active flex items-center gap-3 px-5 py-2.5 bg-slate-50 rounded-lg hover:bg-slate-100 transition font-bold text-black text-sm tracking-wide">
+        <button onclick="setActiveOrderMode(this)" class="order-mode-btn active flex items-center gap-2 md:gap-3 px-2.5 md:px-5 py-2 md:py-2.5 bg-slate-50 rounded-lg hover:bg-slate-100 transition font-bold text-black text-sm tracking-wide">
           <i data-lucide="shopping-bag" class="w-5 h-5 text-amber-800"></i>
-          <span>PICKUP</span>
+          <span class="hidden md:inline">PICKUP</span>
         </button>
 
-        <button onclick="setActiveOrderMode(this)" class="order-mode-btn flex items-center gap-3 px-5 py-2.5 bg-slate-50 rounded-lg hover:bg-slate-100 transition font-bold text-black text-sm tracking-wide">
+        <a href="./merch.html" class="order-mode-btn flex items-center gap-2 md:gap-3 px-2.5 md:px-5 py-2 md:py-2.5 bg-slate-50 rounded-lg hover:bg-slate-100 transition font-bold text-black text-sm tracking-wide">
           <i data-lucide="shirt" class="w-5 h-5 text-gray-700"></i>
-          <span>MERCH</span>
-        </button>
+          <span class="hidden md:inline">MERCH</span>
+        </a>
       </nav>
     </div>
 
-    <div class="flex items-center gap-6">
-      <div onclick="navigateTo('store-locator')" class="bg-sky-50/60 border border-sky-200 hover:border-sky-400 rounded-lg px-4 py-1.5 flex flex-col justify-center min-w-[200px] cursor-pointer transition">
+    <div class="flex items-center gap-2 sm:gap-4 md:gap-6 shrink-0">
+      <div onclick="navigateTo('store-locator')" class="hidden lg:flex bg-sky-50/60 border border-sky-200 hover:border-sky-400 rounded-lg px-4 py-1.5 flex-col justify-center min-w-[200px] cursor-pointer transition">
         <span class="text-[11px] font-bold text-black leading-tight">Pickup From</span>
-        <span class="text-sm font-normal text-gray-800 leading-tight">KFC Store</span>
+        <span id="selected-store-label" class="text-sm font-normal text-gray-800 leading-tight">KFC Store</span>
       </div>
 
-      <a href="./bucket.html" class="relative cursor-pointer flex items-center justify-center p-1" aria-label="Open bucket">
-        <div class="w-8 h-9 border-2 border-black rounded-b-xl relative flex items-center justify-center bg-white shadow-sm">
-          <span id="header-cart-count" class="font-bold text-black text-sm">0</span>
-        </div>
-        <i data-lucide="utensils" class="w-4 h-4 text-black absolute -top-1 right-0 rotate-12"></i>
+      <!-- Desktop/tablet navbar bucket (≥770px). On smaller screens the floating FAB takes over. -->
+      <a href="./bucket.html" class="nav-bucket" aria-label="Open bucket">
+        <img src="./assets/bucket-filled.svg" alt="" draggable="false" />
+        <span id="header-cart-count">0</span>
       </a>
 
-      <button onclick="navigateTo('login')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-2.5 rounded-md text-sm transition shadow-sm">
+      <button onclick="navigateTo('login')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-3 sm:px-6 py-2 sm:py-2.5 rounded-md text-xs sm:text-sm transition shadow-sm">
         LOGIN
       </button>
     </div>
@@ -184,11 +187,49 @@
         REORDER
       </button>
 
+      <!-- Explore Menu (categories) -->
+      <div class="pt-2">
+        <div class="flex items-end justify-between gap-3 mb-3">
+          <h2 class="text-xl font-black text-black tracking-wide">EXPLORE MENU</h2>
+          <button type="button" onclick="openMenuView()" class="text-[11px] font-bold uppercase tracking-wider text-red-600 hover:text-red-700 transition">
+            View All
+          </button>
+        </div>
+        <div id="explore-menu" class="explore-menu-row"></div>
+      </div>
+
       <!-- Best Sellers (add to bucket) -->
       <div class="pt-2">
-        <h2 class="text-xl font-black text-black tracking-wide mb-4">BEST SELLERS</h2>
-        <div id="best-sellers" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        <div class="flex items-end justify-between gap-3 mb-3">
+          <h2 class="text-xl font-black text-black tracking-wide">BEST SELLERS</h2>
+          <span class="hidden sm:inline text-[11px] font-semibold uppercase tracking-wider text-gray-400">Swipe for more</span>
+        </div>
+        <div id="best-sellers" class="best-sellers-row"></div>
       </div>
+
+      <!-- Top Deals -->
+      <div class="pt-2 pb-4">
+        <div class="flex items-end justify-between gap-3 mb-3">
+          <h2 class="text-xl font-black text-black tracking-wide">TOP DEALS</h2>
+          <span class="hidden sm:inline text-[11px] font-semibold uppercase tracking-wider text-gray-400">Limited time</span>
+        </div>
+        <div id="top-deals" class="top-deals-row"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIEW: FULL MENU (by category) -->
+  <section id="view-menu" class="page-view flex-1 hidden">
+    <div class="w-full px-3 sm:px-4 md:px-6 py-4 md:py-5">
+      <div class="flex items-center gap-3 mb-4">
+        <button type="button" onclick="navigateTo('home')" class="w-8 h-8 rounded-full border border-red-600 flex items-center justify-center text-red-600 hover:bg-red-50 transition shrink-0" aria-label="Back to home">
+          <i data-lucide="chevron-left" class="w-5 h-5"></i>
+        </button>
+        <h1 id="menu-view-title" class="text-xl font-black text-black tracking-wide">VIEW MENU</h1>
+      </div>
+
+      <div id="menu-category-tabs" class="menu-cat-tabs mb-5" role="tablist" aria-label="Menu categories"></div>
+      <div id="menu-products" class="menu-products-grid"></div>
     </div>
   </section>
 
@@ -241,31 +282,27 @@
           <div class="space-y-3 mb-4">
             <div class="relative">
               <i data-lucide="search" class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-              <input type="text" placeholder="Search outlet name or street..." class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg text-sm outline-none focus:border-red-500" />
+              <input id="store-search" type="text" placeholder="Search outlet name or street..." oninput="filterStores()" class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg text-sm outline-none focus:border-red-500" />
             </div>
-            <select class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm outline-none">
-              <option>City: All</option>
-              <option>Karachi</option>
-              <option>Lahore</option>
+            <select id="city-select" onchange="filterStores()" class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm outline-none focus:border-red-500">
+              <option value="All">City: All</option>
+              <option value="Karachi">Karachi</option>
+              <option value="Lahore">Lahore</option>
+              <option value="Islamabad">Islamabad</option>
+              <option value="Rawalpindi">Rawalpindi</option>
+              <option value="Multan">Multan</option>
+              <option value="Faisalabad">Faisalabad</option>
+              <option value="Peshawar">Peshawar</option>
             </select>
           </div>
 
           <div class="flex border-b border-gray-200 mb-4 gap-8">
-            <button class="font-bold text-red-600 border-b-2 border-red-600 pb-2 text-sm">All</button>
-            <button class="font-bold text-gray-500 pb-2 text-sm">Delivery</button>
-            <button class="font-bold text-gray-500 pb-2 text-sm">Pickup</button>
+            <button type="button" class="font-bold text-red-600 border-b-2 border-red-600 pb-2 text-sm">All</button>
+            <button type="button" class="font-bold text-gray-500 pb-2 text-sm">Delivery</button>
+            <button type="button" class="font-bold text-gray-500 pb-2 text-sm">Pickup</button>
           </div>
 
-          <div class="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-3">
-            <div class="p-4 border border-red-500 bg-red-50/20 rounded-lg transition cursor-pointer flex items-start gap-3">
-              <i data-lucide="map-pin" class="w-5 h-5 text-red-600 shrink-0 mt-1"></i>
-              <div>
-                <h3 class="font-bold text-black text-sm">Shahrah-e-Faisal (Nursery)</h3>
-                <p class="text-xs text-gray-500">16b Shahrah-e-Faisal rd, Block 6 PECHS, Karachi</p>
-                <p class="text-xs font-bold text-red-600 mt-1">12:00 PM - 03:00 AM</p>
-              </div>
-            </div>
-          </div>
+          <div id="store-list" class="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-3"></div>
         </div>
 
         <div class="lg:col-span-7 h-[650px] rounded-xl overflow-hidden border border-gray-200">
@@ -322,6 +359,7 @@
       <span class="text-red-600 font-black italic text-3xl">KFC</span>
       <div class="flex gap-6 font-semibold">
         <button onclick="navigateTo('home')" class="hover:text-red-600">About Us</button>
+        <a href="./merch.html" class="hover:text-red-600">Merch</a>
         <button onclick="navigateTo('store-locator')" class="hover:text-red-600">Store Locator</button>
         <button onclick="navigateTo('track-order')" class="hover:text-red-600">Track Order</button>
       </div>
@@ -463,6 +501,10 @@
         window.location.href = './bucket.html';
         return;
       }
+      if (viewId === 'merch') {
+        window.location.href = './merch.html';
+        return;
+      }
       closeSidebar();
       document.querySelectorAll('.page-view').forEach(view => view.classList.add('hidden'));
       
@@ -478,44 +520,186 @@
     }
 
     // ——— Cart / Bucket ———
+    const MENU_CATEGORIES = [
+      {
+        id: 'promotion',
+        name: 'Promotion',
+        image: 'https://www.kfcpakistan.com/images/df1bd940-b588-11f1-b9a1-2321b8059466-Group-Thumbnail-UPDATED-2026-09-21065128.png'
+      },
+      {
+        id: 'everyday-value',
+        name: 'Everyday Value',
+        image: 'https://www.kfcpakistan.com/images/945d43e0-04e8-11f1-9ab5-3bcf9765e847-GTEverydayValue-2026-02-08122039.png'
+      },
+      {
+        id: 'ala-carte',
+        name: 'Ala-Carte & Combos',
+        image: 'https://www.kfcpakistan.com/images/945d1cd0-04e8-11f1-9cf8-db47e00d6f70-GTAla-Carte-&-Combos-2026-02-08122039.png'
+      },
+      {
+        id: 'signature-boxes',
+        name: 'Signature Boxes',
+        image: 'https://www.kfcpakistan.com/images/ececa300-0580-11f1-9cd7-bf0c899c108f-GTSignature-Boxes-2026-02-09063111.png'
+      },
+      {
+        id: 'sharing',
+        name: 'Sharing',
+        image: 'https://www.kfcpakistan.com/images/ecea5910-0580-11f1-96bb-af6cbd06c5f6-GTSharing(1)-2026-02-09063111.png'
+      },
+      {
+        id: 'condiments',
+        name: 'Condiments',
+        image: 'https://www.kfcpakistan.com/images/e99a1110-2065-11f1-9988-43384e068bdc-GroupThumbnail-2026-03-15115550.png'
+      },
+      {
+        id: 'snacks',
+        name: 'Snacks & Beverages',
+        image: 'https://www.kfcpakistan.com/images/ecea5910-0580-11f1-96bb-af6cbd06c5f6-GTSnacks-&-Beverages-2026-02-09063111.png'
+      },
+      {
+        id: 'midnight',
+        name: 'Midnight (Start at 12 am)',
+        image: 'https://www.kfcpakistan.com/images/ac4558a0-5216-11f1-9a23-41d43d89c9b1-MidnightDeal3(1)-2026-05-17173435.png'
+      }
+    ];
+
     const MENU_ITEMS = [
       {
         id: 'krunch',
         name: 'Krunch Burger',
         price: 310,
+        category: 'everyday-value',
+        bestSeller: true,
         image: 'https://www.kfcpakistan.com/images/3df28210-0356-11f1-b8c8-9d1458b09f1f-KrunchBurger_variant_0-2026-02-06122036.png'
       },
       {
         id: 'mighty',
         name: 'Mighty Zinger',
         price: 770,
+        category: 'ala-carte',
+        bestSeller: true,
         image: 'https://www.kfcpakistan.com/images/479d9a50-033f-11f1-80f2-d9425fcae453-MightyBurger_variant_0-2026-02-06093614.png'
       },
       {
         id: 'chicken-chips',
         name: 'Chicken & Chips',
         price: 650,
+        category: 'ala-carte',
+        bestSeller: true,
         image: 'https://www.kfcpakistan.com/images/06430420-324a-11f1-853e-eb241d5d866b-Chicken%26Chips_variant_0-2026-04-07062133.png'
       },
       {
         id: 'hot-wings',
         name: 'Hot Wings Bucket',
         price: 670,
+        category: 'sharing',
+        bestSeller: true,
         image: 'https://www.kfcpakistan.com/images/58e39830-0cc4-11f1-b9bd-fd77d0888e9a-HotWingsBucket2_variant_0-2026-02-18122126.png'
       },
       {
         id: 'krunch-combo',
         name: 'Krunch Combo',
         price: 590,
+        category: 'everyday-value',
+        bestSeller: true,
         image: 'https://www.kfcpakistan.com/images/b5d21c10-0332-11f1-bced-37eb4037a5af-KrunchCombo-2026-02-06080615.png'
       },
       {
         id: 'snack-box',
         name: 'Snack Box',
         price: 1050,
+        category: 'promotion',
+        topDeal: true,
+        desc: '4 Strips + 6 Hot Wings + Fries & 2 Dips (Cheetos Dip & Creamy Ranch)',
         image: 'https://www.kfcpakistan.com/images/3cc0bb70-b524-11f1-9a2a-471ba44b3379-App-Web--Kiosk-Thumbnail-500x500-UPDATED-2026-09-20185106.png'
+      },
+      {
+        id: 'crispy-bucket',
+        name: 'Crispy Bucket',
+        price: 2090,
+        category: 'promotion',
+        topDeal: true,
+        desc: 'Enjoy 9 pcs of our Signature Crispy Fried Chicken, hand-breaded in-house. Rs. 50 from every bucket goes to the Mitao Bhook Foundation.',
+        image: 'https://www.kfcpakistan.com/images/06430420-324a-11f1-88bb-754581c69783-ValueBucketcopy-2026-04-07062133.png'
+      },
+      {
+        id: 'family-festival-3',
+        name: 'Family Festival 3',
+        price: 2590,
+        category: 'sharing',
+        topDeal: true,
+        desc: 'An ultimate meal for the fam. It includes 4 Zinger burgers + 4 pieces Hot and Crispy Chicken + 2 Dinner rolls + 1.5 Liter drink',
+        image: 'https://www.kfcpakistan.com/images/06430420-324a-11f1-88bb-754581c69783-FF3-With-bottle-copy-2026-04-07062133.png'
+      },
+      {
+        id: 'zinger',
+        name: 'Zinger Burger',
+        price: 550,
+        category: 'ala-carte',
+        image: 'https://www.kfcpakistan.com/images/479d9a50-033f-11f1-80f2-d9425fcae453-MightyBurger_variant_0-2026-02-06093614.png'
+      },
+      {
+        id: 'twister',
+        name: 'Twister',
+        price: 440,
+        category: 'ala-carte',
+        image: 'https://www.kfcpakistan.com/images/3df28210-0356-11f1-b8c8-9d1458b09f1f-KrunchBurger_variant_0-2026-02-06122036.png'
+      },
+      {
+        id: 'xtreme-duo',
+        name: 'Xtreme Duo Box',
+        price: 1560,
+        category: 'signature-boxes',
+        desc: 'The ultimate duo — 2 Zingers + 2 Hot Wings + Fries & Drink',
+        image: 'https://www.kfcpakistan.com/images/3cc0bb70-b524-11f1-9a2a-471ba44b3379-App-Web--Kiosk-Thumbnail-500x500-UPDATED-2026-09-20185106.png'
+      },
+      {
+        id: 'dinner-roll',
+        name: 'Dinner Roll',
+        price: 50,
+        category: 'condiments',
+        image: 'https://www.kfcpakistan.com/images/e99a1110-2065-11f1-9988-43384e068bdc-GroupThumbnail-2026-03-15115550.png'
+      },
+      {
+        id: 'mayo-dip',
+        name: 'Mayonnaise Dip',
+        price: 70,
+        category: 'condiments',
+        image: 'https://www.kfcpakistan.com/images/e99a1110-2065-11f1-9988-43384e068bdc-GroupThumbnail-2026-03-15115550.png'
+      },
+      {
+        id: 'fries',
+        name: 'Regular Fries',
+        price: 270,
+        category: 'snacks',
+        image: 'https://www.kfcpakistan.com/images/ecea5910-0580-11f1-96bb-af6cbd06c5f6-GTSnacks-&-Beverages-2026-02-09063111.png'
+      },
+      {
+        id: 'pepsi',
+        name: 'Pepsi Regular',
+        price: 180,
+        category: 'snacks',
+        image: 'https://www.kfcpakistan.com/images/ecea5910-0580-11f1-96bb-af6cbd06c5f6-GTSnacks-&-Beverages-2026-02-09063111.png'
+      },
+      {
+        id: 'midnight-deal-1',
+        name: 'Midnight Deal 1',
+        price: 470,
+        category: 'midnight',
+        desc: '1 Zinger + Regular Fries + Regular Drink',
+        image: 'https://www.kfcpakistan.com/images/ac4558a0-5216-11f1-9a23-41d43d89c9b1-MidnightDeal3(1)-2026-05-17173435.png'
+      },
+      {
+        id: 'midnight-deal-2',
+        name: 'Midnight Deal 2',
+        price: 560,
+        category: 'midnight',
+        desc: '2 Pieces Hot & Crispy + Fries + Drink',
+        image: 'https://www.kfcpakistan.com/images/ac4558a0-5216-11f1-9a23-41d43d89c9b1-MidnightDeal3(1)-2026-05-17173435.png'
       }
     ];
+
+    let activeMenuCategory = 'all';
 
     let cart = JSON.parse(localStorage.getItem('kfc-cart') || '[]');
 
@@ -548,23 +732,123 @@
 
     function renderProductCard(item) {
       return `
-        <div class="product-card">
-          <img src="${item.image}" alt="${item.name}" onerror="this.src='https://www.kfcpakistan.com/images/58e39830-0cc4-11f1-b9bd-fd77d0888e9a-HotWingsBucket2_variant_0-2026-02-18122126.png'" />
-          <div class="product-body">
-            <div class="flex items-start justify-between gap-2">
-              <h3 class="font-bold text-sm text-black leading-snug">${item.name}</h3>
-              <span class="text-red-600 font-bold text-sm whitespace-nowrap">Rs ${item.price}</span>
-            </div>
-            <button type="button" class="add-btn" onclick="addToBucket('${item.id}')">Add to bucket</button>
+        <article class="bs-card">
+          <div class="kfc-stripes" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="bs-price-ribbon" aria-label="Price Rs ${item.price}">
+            <span class="bs-rs">Rs</span>
+            <span class="bs-amount">${item.price}</span>
           </div>
-        </div>
+          <h3 class="bs-title">${item.name}</h3>
+          <div class="bs-media">
+            <img src="${item.image}" alt="${item.name}" loading="lazy" onerror="this.src='https://www.kfcpakistan.com/images/58e39830-0cc4-11f1-b9bd-fd77d0888e9a-HotWingsBucket2_variant_0-2026-02-18122126.png'" />
+          </div>
+          <button type="button" class="bs-add" onclick="addToBucket('${item.id}')">
+            <span>+ Add to bucket</span>
+          </button>
+        </article>
       `;
+    }
+
+    function renderDealCard(item) {
+      return `
+        <article class="td-card">
+          <div class="kfc-stripes" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="td-media">
+            <img src="${item.image}" alt="${item.name}" loading="lazy" onerror="this.src='https://www.kfcpakistan.com/images/3cc0bb70-b524-11f1-9a2a-471ba44b3379-App-Web--Kiosk-Thumbnail-500x500-UPDATED-2026-09-20185106.png'" />
+          </div>
+          <div class="td-body">
+            <div class="td-head">
+              <h3 class="td-title">${item.name}</h3>
+              <span class="td-price">Rs ${item.price}</span>
+            </div>
+            <p class="td-desc">${item.desc || ''}</p>
+            <button type="button" class="td-add" onclick="addToBucket('${item.id}')">+ Add to bucket</button>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderExploreMenu() {
+      const el = document.getElementById('explore-menu');
+      if (!el) return;
+      el.innerHTML = MENU_CATEGORIES.map(cat => `
+        <button type="button" class="em-card" onclick="openMenuView('${cat.id}')" aria-label="View ${cat.name}">
+          <div class="em-thumb">
+            <img src="${cat.image}" alt="" loading="lazy" />
+          </div>
+          <span class="em-label">${cat.name}</span>
+        </button>
+      `).join('');
     }
 
     function renderBestSellers() {
       const el = document.getElementById('best-sellers');
       if (!el) return;
-      el.innerHTML = MENU_ITEMS.slice(0, 5).map(item => renderProductCard(item)).join('');
+      const items = MENU_ITEMS.filter(i => i.bestSeller);
+      el.innerHTML = items.map(item => renderProductCard(item)).join('');
+    }
+
+    function renderTopDeals() {
+      const el = document.getElementById('top-deals');
+      if (!el) return;
+      const items = MENU_ITEMS.filter(i => i.topDeal);
+      el.innerHTML = items.map(item => renderDealCard(item)).join('');
+    }
+
+    function openMenuView(categoryId) {
+      activeMenuCategory = categoryId || 'all';
+      navigateTo('menu');
+      renderMenuView();
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderMenuCategoryTabs() {
+      const el = document.getElementById('menu-category-tabs');
+      if (!el) return;
+      const tabs = [{ id: 'all', name: 'All' }, ...MENU_CATEGORIES];
+      el.innerHTML = tabs.map(cat => `
+        <button
+          type="button"
+          role="tab"
+          class="menu-cat-tab${activeMenuCategory === cat.id ? ' active' : ''}"
+          aria-selected="${activeMenuCategory === cat.id}"
+          onclick="setMenuCategory('${cat.id}')"
+        >${cat.name}</button>
+      `).join('');
+    }
+
+    function setMenuCategory(categoryId) {
+      activeMenuCategory = categoryId;
+      renderMenuView();
+    }
+
+    function renderMenuView() {
+      const title = document.getElementById('menu-view-title');
+      const productsEl = document.getElementById('menu-products');
+      if (!productsEl) return;
+
+      const cat = MENU_CATEGORIES.find(c => c.id === activeMenuCategory);
+      if (title) title.textContent = cat ? cat.name.toUpperCase() : 'VIEW MENU';
+
+      renderMenuCategoryTabs();
+
+      const items = activeMenuCategory === 'all'
+        ? MENU_ITEMS
+        : MENU_ITEMS.filter(i => i.category === activeMenuCategory);
+
+      if (!items.length) {
+        productsEl.innerHTML = `
+          <p class="text-sm text-gray-500 col-span-full text-center py-10">
+            No items in this category yet. Check back soon.
+          </p>
+        `;
+        return;
+      }
+
+      productsEl.innerHTML = items.map(item => {
+        if (item.desc || item.topDeal) return renderDealCard(item);
+        return renderProductCard(item);
+      }).join('');
     }
 
     // ——— Draggable FAB ———
@@ -574,34 +858,54 @@
       if (!fab || !link) return;
 
       const BUCKET_URL = './bucket.html';
+      const MOBILE_MAX = 769;
       let dragging = false;
       let moved = false;
       let startX = 0;
       let startY = 0;
       let origLeft = 0;
       let origTop = 0;
+      let userMoved = false;
 
+      function isMobileBucket() {
+        return window.innerWidth <= MOBILE_MAX;
+      }
+
+      /** Rest to CSS bottom-right (clears any drag inline coords). */
       function placeDefault() {
-        const pad = 24;
-        fab.style.left = `${window.innerWidth - fab.offsetWidth - pad}px`;
-        fab.style.top = `${window.innerHeight - fab.offsetHeight - pad}px`;
+        userMoved = false;
+        fab.style.left = '';
+        fab.style.top = '';
+        fab.style.right = '';
+        fab.style.bottom = '';
+      }
+
+      function clampToViewport() {
+        if (!isMobileBucket() || !fab.offsetWidth) return;
+        const rect = fab.getBoundingClientRect();
+        const maxX = Math.max(0, window.innerWidth - fab.offsetWidth);
+        const maxY = Math.max(0, window.innerHeight - fab.offsetHeight);
+        fab.style.left = `${Math.min(Math.max(0, rect.left), maxX)}px`;
+        fab.style.top = `${Math.min(Math.max(0, rect.top), maxY)}px`;
         fab.style.right = 'auto';
         fab.style.bottom = 'auto';
       }
 
       placeDefault();
       window.addEventListener('resize', () => {
-        const rect = fab.getBoundingClientRect();
-        const maxX = window.innerWidth - fab.offsetWidth;
-        const maxY = window.innerHeight - fab.offsetHeight;
-        fab.style.left = `${Math.min(Math.max(0, rect.left), maxX)}px`;
-        fab.style.top = `${Math.min(Math.max(0, rect.top), maxY)}px`;
+        if (!isMobileBucket()) {
+          placeDefault();
+          return;
+        }
+        if (userMoved) clampToViewport();
+        else placeDefault();
       });
 
       fab.addEventListener('mouseenter', () => fab.classList.add('hovered'));
       fab.addEventListener('mouseleave', () => fab.classList.remove('hovered'));
 
       function onPointerDown(e) {
+        if (!isMobileBucket()) return;
         if (e.button !== undefined && e.button !== 0) return;
         dragging = true;
         moved = false;
@@ -611,6 +915,11 @@
         startY = e.clientY;
         origLeft = rect.left;
         origTop = rect.top;
+        // Lock to left/top so drag works from CSS right/bottom start
+        fab.style.left = `${rect.left}px`;
+        fab.style.top = `${rect.top}px`;
+        fab.style.right = 'auto';
+        fab.style.bottom = 'auto';
         fab.setPointerCapture?.(e.pointerId);
       }
 
@@ -619,19 +928,18 @@
         const dx = e.clientX - startX;
         const dy = e.clientY - startY;
         if (Math.abs(dx) > 8 || Math.abs(dy) > 8) moved = true;
-        if (!moved) return; // don't reposition until a real drag
-        const maxX = window.innerWidth - fab.offsetWidth;
-        const maxY = window.innerHeight - fab.offsetHeight;
+        if (!moved) return;
+        userMoved = true;
+        const maxX = Math.max(0, window.innerWidth - fab.offsetWidth);
+        const maxY = Math.max(0, window.innerHeight - fab.offsetHeight);
         fab.style.left = `${Math.min(Math.max(0, origLeft + dx), maxX)}px`;
         fab.style.top = `${Math.min(Math.max(0, origTop + dy), maxY)}px`;
       }
 
-      function onPointerUp(e) {
+      function onPointerUp() {
         if (!dragging) return;
         dragging = false;
         fab.classList.remove('dragging');
-        // pointerdown + preventDefault used to kill the click event —
-        // open the bucket here on a tap/click (not a drag)
         if (!moved) {
           window.location.href = BUCKET_URL;
         }
@@ -643,13 +951,14 @@
       fab.addEventListener('pointerup', onPointerUp);
       fab.addEventListener('pointercancel', onPointerUp);
 
-      // Keep href for accessibility / middle-click; block default when we handle it
       link.addEventListener('click', (e) => {
         e.preventDefault();
       });
     })();
 
+    renderExploreMenu();
     renderBestSellers();
+    renderTopDeals();
     updateCartCounts();
 
     function setTheme(theme) {
@@ -692,10 +1001,116 @@
       localStorage.setItem('kfc-theme', theme);
     }
 
+    // ——— Store Locator ———
+    const OUTLETS = [
+      { name: 'Shahrah-e-Faisal (Nursery)', city: 'Karachi', address: '16b Shahrah-e-Faisal Rd, PECHS Block 6, Karachi', timing: '12:00 PM - 03:00 AM' },
+      { name: 'Clifton (Boat Basin)', city: 'Karachi', address: 'Block 5 Clifton, Marine Drive, Karachi', timing: '11:00 AM - 04:00 AM' },
+      { name: 'Gulshan-e-Iqbal', city: 'Karachi', address: 'Block 13-C, University Road, Karachi', timing: '12:00 PM - 03:00 AM' },
+      { name: 'North Nazimabad', city: 'Karachi', address: 'Block H, Near Five Star Chowrangi, Karachi', timing: '12:00 PM - 03:00 AM' },
+      { name: 'DHA Phase 6', city: 'Karachi', address: 'Khayaban-e-Shahbaz, Phase 6, Karachi', timing: '12:00 PM - 03:00 AM' },
+      { name: 'Atrium Mall', city: 'Karachi', address: 'Staff Lines, Zaibunnisa Street, Saddar, Karachi', timing: '11:00 AM - 11:00 PM' },
+      { name: 'Lucky One Mall', city: 'Karachi', address: 'LA-2/B, Block 21, Rashid Minhas Rd, Karachi', timing: '11:00 AM - 12:00 AM' },
+      { name: 'Bahadurabad', city: 'Karachi', address: 'Chowrangi, Alamgir Road, Bahadurabad, Karachi', timing: '12:00 PM - 02:00 AM' },
+      { name: 'Tariq Road', city: 'Karachi', address: 'Main Tariq Road, PECHS, Karachi', timing: '12:00 PM - 03:00 AM' },
+      { name: 'Dolmen Mall Clifton', city: 'Karachi', address: 'HC-3, Marine Drive, Clifton Block 4, Karachi', timing: '11:00 AM - 11:00 PM' },
+      { name: 'Gulberg III', city: 'Lahore', address: 'MM Alam Road, Block B2, Gulberg III, Lahore', timing: '12:00 PM - 03:00 AM' },
+      { name: 'DHA Phase 3 (Y Block)', city: 'Lahore', address: 'Street 12, Sector Y DHA Phase 3, Lahore', timing: '12:00 PM - 03:00 AM' },
+      { name: 'Johar Town', city: 'Lahore', address: 'Main Boulevard Johar Town, Block G, Lahore', timing: '12:00 PM - 02:00 AM' },
+      { name: 'Mall Road', city: 'Lahore', address: 'Shahrah-e-Quaid-e-Azam, Near Regal Chowk, Lahore', timing: '11:00 AM - 01:00 AM' },
+      { name: 'Packages Mall', city: 'Lahore', address: 'Walton Road, Near Defence Morr, Lahore', timing: '11:00 AM - 11:00 PM' },
+      { name: 'Emporium Mall', city: 'Lahore', address: 'Abdul Haque Rd, Johar Town, Lahore', timing: '11:00 AM - 11:00 PM' },
+      { name: 'Thokar Niaz Baig', city: 'Lahore', address: 'Multan Road, Thokar Niaz Baig, Lahore', timing: '12:00 PM - 02:00 AM' },
+      { name: 'F-6 Markaz', city: 'Islamabad', address: 'Super Market, F-6 Markaz, Islamabad', timing: '11:00 AM - 02:00 AM' },
+      { name: 'F-11 Markaz', city: 'Islamabad', address: 'Select Center, F-11 Markaz, Islamabad', timing: '11:00 AM - 02:00 AM' },
+      { name: 'Centaurus Mall', city: 'Islamabad', address: 'Food Court, 4th Floor, Centaurus Mall, Islamabad', timing: '11:00 AM - 11:00 PM' },
+      { name: 'G-9 Markaz', city: 'Islamabad', address: 'Karachi Company, G-9 Markaz, Islamabad', timing: '11:00 AM - 01:00 AM' },
+      { name: 'Saddar (Commercial Market)', city: 'Rawalpindi', address: 'Haider Rd, Saddar, Rawalpindi', timing: '12:00 PM - 02:00 AM' },
+      { name: 'Bahria Town Phase 4', city: 'Rawalpindi', address: 'Civic Center, Bahria Town Phase 4, Rawalpindi', timing: '12:00 PM - 02:00 AM' },
+      { name: 'Saddar Multan', city: 'Multan', address: 'Abdali Road, Near Clock Tower, Multan', timing: '12:00 PM - 01:00 AM' },
+      { name: 'Gulgasht Colony', city: 'Multan', address: 'Main Boulevard, Gulgasht Colony, Multan', timing: '12:00 PM - 01:00 AM' },
+      { name: 'D Ground', city: 'Faisalabad', address: 'People\'s Colony, D Ground, Faisalabad', timing: '12:00 PM - 01:00 AM' },
+      { name: 'Susan Road', city: 'Faisalabad', address: 'Susan Road, Madina Town, Faisalabad', timing: '12:00 PM - 01:00 AM' },
+      { name: 'University Road', city: 'Peshawar', address: 'University Road, Near Board Bazaar, Peshawar', timing: '12:00 PM - 01:00 AM' },
+      { name: 'Saddar Peshawar', city: 'Peshawar', address: 'Saddar Road, Cantonment, Peshawar', timing: '12:00 PM - 01:00 AM' }
+    ];
+
+    let selectedOutletName = localStorage.getItem('kfc-selected-store') || '';
+
+    function renderStores(list) {
+      const container = document.getElementById('store-list');
+      if (!container) return;
+      container.innerHTML = '';
+
+      if (!list.length) {
+        container.innerHTML = '<p class="text-sm text-gray-500 text-center py-6">No KFC outlets found matching your query.</p>';
+        return;
+      }
+
+      list.forEach((store, index) => {
+        const isSelected = selectedOutletName === store.name || (!selectedOutletName && index === 0);
+        const card = document.createElement('div');
+        card.className = isSelected
+          ? 'p-4 border border-red-500 bg-red-50/20 rounded-lg transition cursor-pointer flex items-start gap-3'
+          : 'p-4 border border-gray-200 rounded-lg hover:border-red-500 transition cursor-pointer flex items-start gap-3 bg-white';
+        card.onclick = () => selectStore(store.name);
+        card.innerHTML = `
+          <i data-lucide="map-pin" class="w-5 h-5 text-red-600 shrink-0 mt-1"></i>
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <h3 class="font-bold text-black text-sm">${store.name}</h3>
+              <span class="text-[10px] font-semibold uppercase tracking-wide text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">${store.city}</span>
+            </div>
+            <p class="text-xs text-gray-500 mt-0.5">${store.address}</p>
+            <p class="text-xs font-bold text-red-600 mt-1">${store.timing}</p>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function filterStores() {
+      const searchEl = document.getElementById('store-search');
+      const cityEl = document.getElementById('city-select');
+      const searchQuery = (searchEl?.value || '').toLowerCase().trim();
+      const selectedCity = cityEl?.value || 'All';
+
+      const filtered = OUTLETS.filter(store => {
+        const matchesCity = selectedCity === 'All' || store.city === selectedCity;
+        const matchesQuery =
+          !searchQuery ||
+          store.name.toLowerCase().includes(searchQuery) ||
+          store.address.toLowerCase().includes(searchQuery) ||
+          store.city.toLowerCase().includes(searchQuery);
+        return matchesCity && matchesQuery;
+      });
+
+      renderStores(filtered);
+    }
+
+    function selectStore(storeName) {
+      selectedOutletName = storeName;
+      localStorage.setItem('kfc-selected-store', storeName);
+      const label = document.getElementById('selected-store-label');
+      if (label) label.textContent = storeName;
+      filterStores();
+      showToast(`Selected Store: ${storeName}`);
+    }
+
     // Restore saved theme on load
     (function initTheme() {
       const saved = localStorage.getItem('kfc-theme') || 'day';
       setTheme(saved);
+    })();
+
+    // Init store list + header pickup label
+    (function initStores() {
+      if (selectedOutletName) {
+        const label = document.getElementById('selected-store-label');
+        if (label) label.textContent = selectedOutletName;
+      }
+      filterStores();
     })();
   </script>
 
