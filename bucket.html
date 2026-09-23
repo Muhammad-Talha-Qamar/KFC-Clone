@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./style.css">
+  <title>Your Bucket | KFC</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+</head>
+<body id="body-container" class="bg-gray-100 font-sans min-h-screen flex flex-col relative overflow-x-hidden">
+
+  <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- TOP HEADER -->
+  <header class="w-full bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between gap-4 sticky top-0 z-30">
+    <div class="flex items-center gap-6">
+      <a href="./index.html" class="text-red-600 font-black italic text-3xl tracking-tighter">
+        KFC
+      </a>
+      <nav class="hidden sm:flex items-center gap-3">
+        <span class="order-mode-btn flex items-center gap-3 px-5 py-2.5 bg-slate-50 rounded-lg font-bold text-black text-sm tracking-wide">
+          <i data-lucide="bike" class="w-5 h-5 text-red-500"></i>
+          <span>DELIVERY</span>
+        </span>
+        <span class="order-mode-btn active flex items-center gap-3 px-5 py-2.5 bg-slate-50 rounded-lg font-bold text-black text-sm tracking-wide">
+          <i data-lucide="shopping-bag" class="w-5 h-5 text-amber-800"></i>
+          <span>PICKUP</span>
+        </span>
+      </nav>
+    </div>
+
+    <div class="flex items-center gap-6">
+      <a href="./bucket.html" class="relative flex items-center justify-center p-1" aria-label="Bucket">
+        <div class="w-8 h-9 border-2 border-black rounded-b-xl relative flex items-center justify-center bg-white shadow-sm">
+          <span id="header-cart-count" class="font-bold text-black text-sm">0</span>
+        </div>
+        <i data-lucide="utensils" class="w-4 h-4 text-black absolute -top-1 right-0 rotate-12"></i>
+      </a>
+      <a href="./index.html" class="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-2.5 rounded-md text-sm transition shadow-sm">
+        LOGIN
+      </a>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <div class="max-w-[1100px] w-full mx-auto p-4 md:p-6">
+      <div class="flex items-center gap-3 mb-6">
+        <a href="./index.html" class="w-8 h-8 rounded-full border border-red-600 flex items-center justify-center text-red-600 hover:bg-red-50 transition" aria-label="Back to home">
+          <i data-lucide="chevron-left" class="w-5 h-5"></i>
+        </a>
+        <h1 class="text-2xl font-bold text-black">Items From Your Cart</h1>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-7 space-y-6">
+          <div id="bucket-items" class="bg-white rounded-xl border border-gray-200 p-5 min-h-[160px]"></div>
+
+          <div>
+            <h2 class="text-lg font-bold text-black mb-3">You may also like</h2>
+            <div id="also-like" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5">
+          <div class="bg-[#1c1817] text-white rounded-xl p-5 sticky top-24 space-y-4">
+            <h2 class="text-lg font-bold">Your Order</h2>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-300">Sub Total :</span>
+              <span id="cart-subtotal" class="font-bold">Rs 0</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-300">Delivery Fee :</span>
+              <span id="cart-delivery" class="font-bold">Rs 0</span>
+            </div>
+            <div class="border-t border-gray-700 pt-3 flex justify-between">
+              <span class="font-bold">Total :</span>
+              <span id="cart-total" class="font-black text-lg">Rs 0</span>
+            </div>
+            <button type="button" onclick="handleCheckout()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-md text-sm transition mt-2">
+              CHECKOUT
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Floating bucket stays visible -->
+  <div id="draggable-fab" class="draggable-fab" aria-label="Bucket cart">
+    <a href="./bucket.html" class="cart-svg-link" draggable="false" aria-label="Open your bucket">
+      <img src="./assets/bucket-filled.svg" alt="Bucket" draggable="false" />
+      <span id="fab-cart-count">0</span>
+    </a>
+  </div>
+
+  <footer class="bg-white border-t border-gray-200 mt-auto py-8">
+    <div class="max-w-[1200px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-gray-600">
+      <a href="./index.html" class="text-red-600 font-black italic text-3xl">KFC</a>
+      <div class="flex gap-6 font-semibold">
+        <a href="./index.html" class="hover:text-red-600">Home</a>
+        <a href="./bucket.html" class="hover:text-red-600">Bucket</a>
+      </div>
+      <p class="text-xs text-gray-500">2026 KFC. All rights reserved</p>
+    </div>
+  </footer>
+
+  <script>
+    if (window.lucide) lucide.createIcons();
+
+    const MENU_ITEMS = [
+      {
+        id: 'krunch',
+        name: 'Krunch Burger',
+        price: 310,
+        image: 'https://www.kfcpakistan.com/images/3df28210-0356-11f1-b8c8-9d1458b09f1f-KrunchBurger_variant_0-2026-02-06122036.png'
+      },
+      {
+        id: 'mighty',
+        name: 'Mighty Zinger',
+        price: 770,
+        image: 'https://www.kfcpakistan.com/images/479d9a50-033f-11f1-80f2-d9425fcae453-MightyBurger_variant_0-2026-02-06093614.png'
+      },
+      {
+        id: 'chicken-chips',
+        name: 'Chicken & Chips',
+        price: 650,
+        image: 'https://www.kfcpakistan.com/images/06430420-324a-11f1-853e-eb241d5d866b-Chicken%26Chips_variant_0-2026-04-07062133.png'
+      },
+      {
+        id: 'hot-wings',
+        name: 'Hot Wings Bucket',
+        price: 670,
+        image: 'https://www.kfcpakistan.com/images/58e39830-0cc4-11f1-b9bd-fd77d0888e9a-HotWingsBucket2_variant_0-2026-02-18122126.png'
+      },
+      {
+        id: 'krunch-combo',
+        name: 'Krunch Combo',
+        price: 590,
+        image: 'https://www.kfcpakistan.com/images/b5d21c10-0332-11f1-bced-37eb4037a5af-KrunchCombo-2026-02-06080615.png'
+      },
+      {
+        id: 'snack-box',
+        name: 'Snack Box',
+        price: 1050,
+        image: 'https://www.kfcpakistan.com/images/3cc0bb70-b524-11f1-9a2a-471ba44b3379-App-Web--Kiosk-Thumbnail-500x500-UPDATED-2026-09-20185106.png'
+      }
+    ];
+
+    let cart = JSON.parse(localStorage.getItem('kfc-cart') || '[]');
+    const toastContainer = document.getElementById('toast-container');
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'bg-white border border-gray-200 rounded-lg p-3 shadow-xl flex items-center gap-3 text-xs font-semibold text-black pointer-events-auto min-w-[280px]';
+      toast.innerHTML = `
+        <div class="w-5 h-5 bg-red-100 rounded-full flex items-center justify-center text-red-600 font-bold shrink-0">!</div>
+        <span class="flex-1">${message}</span>
+        <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-black">✕</button>
+      `;
+      toastContainer.appendChild(toast);
+      setTimeout(() => toast.remove(), 4000);
+    }
+
+    function saveCart() {
+      localStorage.setItem('kfc-cart', JSON.stringify(cart));
+      updateCartCounts();
+    }
+
+    function cartCount() {
+      return cart.reduce((sum, item) => sum + item.qty, 0);
+    }
+
+    function cartSubtotal() {
+      return cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+    }
+
+    function updateCartCounts() {
+      const count = cartCount();
+      const fab = document.getElementById('fab-cart-count');
+      const header = document.getElementById('header-cart-count');
+      if (fab) fab.textContent = count;
+      if (header) header.textContent = count;
+    }
+
+    function addToBucket(itemId) {
+      const product = MENU_ITEMS.find(p => p.id === itemId);
+      if (!product) return;
+      const existing = cart.find(i => i.id === itemId);
+      if (existing) existing.qty += 1;
+      else cart.push({ ...product, qty: 1 });
+      saveCart();
+      showToast(`${product.name} added to bucket`);
+      renderBucket();
+    }
+
+    function changeQty(itemId, delta) {
+      const item = cart.find(i => i.id === itemId);
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) cart = cart.filter(i => i.id !== itemId);
+      saveCart();
+      renderBucket();
+    }
+
+    function removeFromBucket(itemId) {
+      cart = cart.filter(i => i.id !== itemId);
+      saveCart();
+      renderBucket();
+    }
+
+    function renderProductCard(item) {
+      return `
+        <div class="product-card">
+          <img src="${item.image}" alt="${item.name}" onerror="this.src='https://www.kfcpakistan.com/images/58e39830-0cc4-11f1-b9bd-fd77d0888e9a-HotWingsBucket2_variant_0-2026-02-18122126.png'" />
+          <div class="product-body">
+            <div class="flex items-start justify-between gap-2">
+              <h3 class="font-bold text-sm text-black leading-snug">${item.name}</h3>
+              <span class="text-red-600 font-bold text-sm whitespace-nowrap">Rs ${item.price}</span>
+            </div>
+            <button type="button" class="add-btn" onclick="addToBucket('${item.id}')">Add to bucket</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderBucket() {
+      const container = document.getElementById('bucket-items');
+      if (!container) return;
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="bucket-empty">
+            <img src="./assets/bucket-filled.svg" alt="Empty bucket" />
+            <h5 class="text-base font-bold text-gray-700">You haven’t added any items in bucket yet</h5>
+            <a href="./index.html" class="text-red-600 font-bold text-sm hover:underline">Explore Menu</a>
+          </div>
+        `;
+      } else {
+        container.innerHTML = cart.map(item => `
+          <div class="bucket-item">
+            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 rounded-lg object-cover bg-gray-50" />
+            <div class="flex-1 min-w-0">
+              <h3 class="font-bold text-sm text-black truncate">${item.name}</h3>
+              <p class="text-red-600 font-bold text-sm">Rs ${item.price * item.qty}</p>
+            </div>
+            <div class="bucket-item-qty">
+              <button type="button" onclick="changeQty('${item.id}', -1)" aria-label="Decrease">−</button>
+              <span class="text-sm font-bold w-4 text-center">${item.qty}</span>
+              <button type="button" onclick="changeQty('${item.id}', 1)" aria-label="Increase">+</button>
+            </div>
+            <button type="button" onclick="removeFromBucket('${item.id}')" class="text-gray-400 hover:text-red-600 p-1" aria-label="Remove">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+        `).join('');
+        if (window.lucide) lucide.createIcons();
+      }
+
+      const subtotal = cartSubtotal();
+      const delivery = subtotal > 0 ? 99 : 0;
+      document.getElementById('cart-subtotal').textContent = `Rs ${subtotal}`;
+      document.getElementById('cart-delivery').textContent = `Rs ${delivery}`;
+      document.getElementById('cart-total').textContent = `Rs ${subtotal + delivery}`;
+
+      const alsoLike = document.getElementById('also-like');
+      if (alsoLike) {
+        alsoLike.innerHTML = MENU_ITEMS.slice(0, 4).map(item => renderProductCard(item)).join('');
+      }
+    }
+
+    function handleCheckout() {
+      if (cart.length === 0) {
+        showToast('Your bucket is empty');
+        return;
+      }
+      showToast('Please login to checkout');
+      setTimeout(() => { window.location.href = './index.html'; }, 800);
+    }
+
+    // Draggable FAB
+    (function initDraggableFab() {
+      const fab = document.getElementById('draggable-fab');
+      const link = fab?.querySelector('.cart-svg-link');
+      if (!fab || !link) return;
+
+      let dragging = false;
+      let moved = false;
+      let startX = 0;
+      let startY = 0;
+      let origLeft = 0;
+      let origTop = 0;
+
+      function placeDefault() {
+        const pad = 24;
+        fab.style.left = `${window.innerWidth - fab.offsetWidth - pad}px`;
+        fab.style.top = `${window.innerHeight - fab.offsetHeight - pad}px`;
+        fab.style.right = 'auto';
+        fab.style.bottom = 'auto';
+      }
+
+      placeDefault();
+      window.addEventListener('resize', () => {
+        const rect = fab.getBoundingClientRect();
+        const maxX = window.innerWidth - fab.offsetWidth;
+        const maxY = window.innerHeight - fab.offsetHeight;
+        fab.style.left = `${Math.min(Math.max(0, rect.left), maxX)}px`;
+        fab.style.top = `${Math.min(Math.max(0, rect.top), maxY)}px`;
+      });
+
+      fab.addEventListener('mouseenter', () => fab.classList.add('hovered'));
+      fab.addEventListener('mouseleave', () => fab.classList.remove('hovered'));
+
+      fab.addEventListener('pointerdown', (e) => {
+        if (e.button !== undefined && e.button !== 0) return;
+        dragging = true;
+        moved = false;
+        fab.classList.add('dragging');
+        const rect = fab.getBoundingClientRect();
+        startX = e.clientX;
+        startY = e.clientY;
+        origLeft = rect.left;
+        origTop = rect.top;
+        fab.setPointerCapture?.(e.pointerId);
+        e.preventDefault();
+      });
+
+      window.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
+        const maxX = window.innerWidth - fab.offsetWidth;
+        const maxY = window.innerHeight - fab.offsetHeight;
+        fab.style.left = `${Math.min(Math.max(0, origLeft + dx), maxX)}px`;
+        fab.style.top = `${Math.min(Math.max(0, origTop + dy), maxY)}px`;
+      });
+
+      window.addEventListener('pointerup', () => {
+        if (!dragging) return;
+        dragging = false;
+        fab.classList.remove('dragging');
+      });
+
+      link.addEventListener('click', (e) => {
+        if (moved) {
+          e.preventDefault();
+          moved = false;
+        }
+      });
+    })();
+
+    updateCartCounts();
+    renderBucket();
+  </script>
+</body>
+</html>
